@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Container, Controls, Timer, Timercount, StyledButton } from "./styles"
 
 import { AiOutlinePlayCircle, AiOutlineClockCircle, AiOutlinePauseCircle } from "react-icons/ai";
-import { PiSpeakerNone,PiSpeakerHigh } from "react-icons/pi";
+import { PiSpeakerNone,PiSpeakerHigh, PiMoonLight, PiSunBold } from "react-icons/pi";
 import { LiaStopCircleSolid }from "react-icons/lia";
 
 import alarmSound from "../assets/alarm.mp3"
@@ -12,12 +12,20 @@ export function App() {
     const [isCounting, setIsCounting] = useState(false);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
+
     const [isStopVisible, setIsStopVisible] = useState(false);
     const [isClockVisible, setIsClockVisible] = useState(true);
-    const [isSoundOn, setIsSoundOn] = useState(true);
 
+    const [isSoundOn, setIsSoundOn] = useState(true);
     const [playAlarm, setPlayAlarm] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
+
+    const [isDark, setisDark] = useState(true);
+
+    const handleDarkMode = () => {
+      setisDark((prevsetisDark) => !prevsetisDark);
+
+    }
 
     const handlePlay = () => {
       setIsCounting((prevIsCounting) => !prevIsCounting);
@@ -66,16 +74,6 @@ export function App() {
       return minutes * 60 + seconds;
     };
   
-    useCountdownEffect(
-      isCounting,
-      minutes,
-      seconds,
-      handleStop,
-      setPlayAlarm,
-      setSeconds,
-      setMinutes,
-      setIsCounting);
-  
     const formatTime = (timeInSeconds) => {
       return {
         formattedMinutes: String(Math.floor(timeInSeconds / 60)).padStart(2, "0"),
@@ -87,12 +85,30 @@ export function App() {
       calculateTotalSeconds()
     );
 
+    useCountdownEffect(
+      isCounting,
+      minutes,
+      seconds,
+      handleStop,
+      setPlayAlarm,
+      setSeconds,
+      setMinutes,
+      setIsCounting);
+
     return (
-        <Container>
+        <Container isDark={!isDark}>
+            <button className="darkButton" onClick={handleDarkMode}>
+              {isDark ? (
+                <PiSunBold size={31}/>
+              ) : (
+                <PiMoonLight className="moonButton" size={31}/>
+              )} 
+            </button>
+
             <Timer>
-                <Timercount>
-                    <span>{formattedMinutes}</span>
-                    :
+                <Timercount isDark={isDark}>
+                    <span>{formattedMinutes}:</span>
+                    
                     <span>{formattedSeconds}</span>
                 </Timercount>
 
