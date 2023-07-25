@@ -28,7 +28,9 @@ export function App() {
     }
 
     const handlePlay = () => {
-      setIsCounting((prevIsCounting) => !prevIsCounting);
+      if(minutes > 0 || seconds > 0) {
+        setIsCounting((prevIsCounting) => !prevIsCounting);
+      }
     };
   
     const handleClock = () => {
