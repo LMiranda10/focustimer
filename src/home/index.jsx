@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, Controls, Timer, Timercount, StyledButton } from "./styles"
 
 import { AiOutlinePlayCircle, AiOutlineClockCircle, AiOutlinePauseCircle } from "react-icons/ai";
@@ -6,6 +6,7 @@ import { PiSpeakerNone,PiSpeakerHigh } from "react-icons/pi";
 import { LiaStopCircleSolid }from "react-icons/lia";
 
 import alarmSound from "../assets/alarm.mp3"
+import useCountdownEffect from "../hooks/useCountdownEffect";
 
 export function App() {
     const [isCounting, setIsCounting] = useState(false);
@@ -65,26 +66,15 @@ export function App() {
       return minutes * 60 + seconds;
     };
   
-    useEffect(() => {
-        let interval;
-        const totalSeconds = calculateTotalSeconds();
-    
-        if (isCounting && totalSeconds > 0) {
-          interval = setInterval(() => {
-            setSeconds((prevSeconds) => prevSeconds - 1);
-          }, 1000);
-        } else if (totalSeconds === 0 && isCounting) {
-          setIsCounting(false);
-          handleStop(); // Executa handleStop quando a contagem chega a 0
-    
-          setPlayAlarm(true);
-    
-          setTimeout(() => {
-            setPlayAlarm(false);
-          }, 2000); // Para a reprodução do alarme após 2 segundos
-        }
-        return () => clearInterval(interval);
-      }, [isCounting, minutes, seconds]);
+    useCountdownEffect(
+      isCounting,
+      minutes,
+      seconds,
+      handleStop,
+      setPlayAlarm,
+      setSeconds,
+      setMinutes,
+      setIsCounting);
   
     const formatTime = (timeInSeconds) => {
       return {
