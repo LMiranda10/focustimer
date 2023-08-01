@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Controls, Timer, Timercount, StyledButton } from "./styles"
+import { Container, Controls, Timer, Timercount, StyledButton, DarkModeButton } from "./styles"
 
 import { AiOutlinePlayCircle, AiOutlineClockCircle, AiOutlinePauseCircle } from "react-icons/ai";
 import { PiSpeakerNone,PiSpeakerHigh, PiMoonLight, PiSunBold } from "react-icons/pi";
@@ -99,14 +99,15 @@ export function App() {
 
     return (
         <Container isDark={!isDark}>
-            <button className="darkButton" onClick={handleDarkMode}>
-              {isDark ? (
-                <PiSunBold size={31}/>
-              ) : (
-                <PiMoonLight className="moonButton" size={31}/>
-              )} 
-            </button>
-
+            <DarkModeButton onClick={handleDarkMode} isDark={!isDark}>
+              {
+                isDark ? ( 
+                  <PiSunBold size={31}/>
+                ) : (
+                  <PiMoonLight className="moon" size={31}/>
+                )
+              }
+            </DarkModeButton>
             <Timer>
                 <Timercount isDark={isDark}>
                     <span>{formattedMinutes}:</span>

@@ -10,20 +10,6 @@ export const Container = styled.div`
     background-color: ${(props) => (props.isDark ? "#F8f8ff" : "#242424")}; 
 
     position: relative;
-
-    > .darkButton {
-      background: none;
-      border: none;
-      color: #FFFFFF;
-
-      position: absolute;
-      right: 50px;
-      top: 50px;
-
-      .moonButton {
-        color: black;
-      }
-    }
 `
 
 export const Timer = styled.div`
@@ -68,3 +54,18 @@ export const StyledButton = styled.button`
   }
     
 `;
+
+export const DarkModeButton = styled.button`
+  border: none;
+  background:none;
+  cursor: pointer;
+  color: #FFFFFF;
+
+  position: absolute;
+  right: 50px;
+  top: 50px;
+
+  .moon {
+    color: black;
+  }
+`
